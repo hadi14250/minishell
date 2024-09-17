@@ -30,7 +30,7 @@ Crafted to replicate the core functions of a Unix shell. We start by handling ba
 ## How to run
 
 - Go to root directory and run `make`
-- Run `./cub3d`
+- Run `./minishell`
 - You're inside our shell now, enjoy!
 
 <br>
