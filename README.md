@@ -4,7 +4,7 @@
     <img src="github_gifs/ansi.gif" alt="3d cube" width="150" height="150">
   </a>
   <h3 align="center">Minishell</h3>
-  Build Your Own Unix Shell (Terminal)
+  A small Unix shell, written from scratch in C
   <br>
   <br>
 </div>
@@ -23,55 +23,54 @@
 
 # Minishell
 
-Crafted to replicate the core functions of a Unix shell. We start by handling basic command execution and progress to advanced features like piping and redirection. Built using pure C, this project reinforces key concepts in process management and signal handling.
+A minimal recreation of a Unix shell, built in pure C. The project walks through the full path a typed line takes inside a real shell: reading input, splitting it into tokens, parsing those tokens into commands, and finally executing them with the right plumbing for pipes, redirections, and signals. It is a hands-on exercise in process management, file descriptors, and how the terminal actually talks to your programs.
 
 <br>
 
-## How to run
+## Getting started
 
-- Go to root directory and run `make`
-- Run `./minishell`
-- You're inside our shell now, enjoy!
+- From the project root, run `make` to build the binary
+- Launch it with `./minishell`
+- A prompt appears — start typing commands as you would in bash
 
 <br>
 
 
 
-## Implemented:
-* Prompt display
-* Command history (up and down arrows)
-* System executables available from the environment (`ls`, `cat`, `grep`, etc.)
+## Features
+
+* Interactive prompt with line editing
+* Command history navigated with the up and down arrow keys
+* Runs any executable found through the `PATH` environment variable (`ls`, `cat`, `grep`, and so on)
 * Builtin commands:
-  * `echo`: Allow option `-n`
-  * `cd`: Relative or absolute path
-  * `pwd`: No args
-  * `export`: Export variables in bash
-  * `unset`: No args
-  * `env`: No options. No args
-  * `exit`: Allow exit number
+  * `echo` with the `-n` flag
+  * `cd` accepting relative or absolute paths
+  * `pwd` with no arguments
+  * `export` to add or update environment variables
+  * `unset` to remove environment variables
+  * `env` to print the current environment
+  * `exit` with an optional exit code
 
-* Pipes: `|` which redirect output from one command to input for the next
+* Pipes: `|` connects the output of one command to the input of the next
 
-* Re-directions:
-  * `>` redirects output
-  * `>>` redirects output in append mode
-  * `<` redirects input
-  * `<< DELIMITER` displays a new prompt. HereDoc
-  	`DELIMITER` redirects user input to command input
-
-
-  * `$?` expands to the exit status of the most recently executed foreground pipeline.
+* Redirections:
+  * `>` writes output to a file, replacing it
+  * `>>` writes output to a file, appending to it
+  * `<` reads input from a file
+  * `<< DELIMITER` opens a here-document — input is read line by line until `DELIMITER` is entered, then fed to the command
 
 
-* Signals:
-  * `ctrl-c`: displays a new prompt line. SIGINT: SIGINT resets the user input
-  prompt to a new blank line.
-  * `ctrl-d`: exit.
-  * `ctrl-\`: does nothing.
+  * `$?` expands to the exit status of the most recent foreground pipeline
 
 
-* Lexer: It helps you to convert a sequence of characters into a sequence of tokens
+* Signal handling:
+  * `ctrl-c` cancels the current input and shows a fresh prompt (SIGINT)
+  * `ctrl-d` on an empty line exits the shell
+  * `ctrl-\` is ignored, matching bash behaviour
 
-* Parser: The parser will then check for invalid syntax and create a kind of command
+
+* Lexer: turns the raw input string into a stream of tokens, handling quoting and variable expansion along the way
+
+* Parser: validates the token stream, reports syntax errors, and assembles the structured command tree the executor runs
 
 <br>
